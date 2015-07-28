@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<!-- 	
+	This file is rendered by express.js, when the home url of the chat is opened in a browser.
+	It doesn't do much, except showing the create button for the chat.
+ -->
+
+<html>
+
+<head>
+
+	<title>Taiwan Gigs Finder</title>
+
+	<link type="text/css" rel="stylesheet" href="css/stylesheet.css" />
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- 	<link href="http://fonts.googleapis.com/css?family=Open+Sans Condensed:300italic,300,700" rel="stylesheet" type="text/css"> -->
+	 <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css" />
+
+</head>
+
+<body>
+
+	<header class="homebanner">
+
+	</header>
+
+	<section>
+
+		<div class="starter-template" style="text-align: center;">
+        <h1>Taiwan Gigs Finder</h1>
+        
+
+ 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+ 		</div>
+      </div>
+      <div class="container" style="margin-left: 720px;">
+      		
+		    <div class='col-md-5' style="width:250px">
+
+		        <div class="form-group">
+		        
+		            <div class='input-group date' id='datetimepicker1'>
+		            
+		                <input type='text' class="form-control" id="start_date" placeholder="開始日期"/>
+		                <span class="input-group-addon">
+		                    <span class="glyphicon glyphicon-calendar"></span>
+		                </span>
+		            </div>
+		        </div>
+		    </div>
+		    
+		    <div class='col-md-5'  style="width:250px">
+		    
+		        <div class="form-group">
+		            <div class='input-group date' id='datetimepicker2'>
+		            
+		                <input type='text' class="form-control" id="end_date" placeholder="結束日期"/>
+		                <span class="input-group-addon">
+		                    <span class="glyphicon glyphicon-calendar"></span>
+		                </span>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="col-md-5">
+		    <div class="form-group">
+		    <div class='input-group date' >
+		           <input type="button" class="btn btn-default" value="Search" id="search"></button>
+		           </div>
+		    </div>
+		    </div>
+		</div>
+		<img src="img/ajax-loader.gif" style="display:none;  margin-left: 1000px;" id="loadingIMG">
+		<div id="events">
+			
+<!-- 			<table class="table table-striped">
+			   <thead>
+			      <tr>
+			         <th>日期(Date)</th>
+			         <th>活動(Event)</th>
+			         <th>地點(Place)</th>
+			         <th>票價(Price)</th>
+			         <th></th>
+			      </tr>
+			   </thead>
+			   <tbody>
+			      <tr>
+			         <td>Tanmay</td>
+			         <td>Bangalore</td>
+			          <td>Bangalore</td>
+			         <td><img src="img/ajax-loader.gif" style="" id="d"></td>
+			      </tr>
+			      <tr>
+			         <td>Sachin</td>
+			         <td>Mumbai</td>
+			          <td>Bangalore</td>
+			         <td>400003</td>
+			      </tr>
+			      <tr>
+			         <td>Uma</td>
+			         <td>Pune</td>
+			          <td>Bangalore</td>
+			         <td>411027</td>
+			      </tr>
+			   </tbody>
+			</table> -->
+		</div>
+	</section>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="js/moment.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript">
+            $(function () {
+            	var now =  moment().format("YYYY/MM/DD");
+                 $('#datetimepicker1').datetimepicker({
+                 	defaultDate: now,
+                 	format: 'YYYY/MM/DD'
+					
+					});
+			     $('#datetimepicker2').datetimepicker({
+			     	defaultDate: now,
+                 	format: 'YYYY/MM/DD'
+					
+					});
+			        $("#datetimepicker1").on("dp.change", function (e) {
+			            $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+			        });
+			        $("#datetimepicker2").on("dp.change", function (e) {
+			            $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
+			        });
+            });
+
+         
+
+            $( "#search" ).click(function() {
+            	var s= $('#start_date').val();
+            	var e= $('#end_date').val();
+            	var url = '/all?start_date='+s+'&end_date='+e;
+            	var table="";
+            	table='<table class="table table-striped"><thead><tr><th>日期(Date)</th><th>活動(Event)</th>'+
+					         '<th>地點(Place)</th><th>票價(Price)</th><th></th></tr></thead><tbody>';
+			  $.ajax({
+				   url: url,
+				   data: {
+				      format: 'json'
+				   },
+				   error: function() {
+				      //$('#info').html('<p>An error has occurred</p>');
+				   },
+				   dataType: 'json',
+				   success: function(data) {
+						var d = data;
+						for(var i=0;i<d.length;i++){
+						table= table+'<tr><td>'+d[i].date+'</td><td>'+d[i].artist+'</td><td>'+
+						''+d[i].place+'</td><td>'+d[i].ticket_price+'</td>'+
+						'<td><img src="'+d[i].img+'" style="width:300px;high:300px"></td></tr>';
+						}
+						table= table+'</tbody></table>';
+				   },
+	                beforeSend:function(){
+	                	$('#search').prop( "disabled", true );
+	                    $('#loadingIMG').show();
+	                    $('#events').empty();
+	                },
+	                complete:function(){
+	                	$('#search').prop( "disabled", false );
+	                    $('#loadingIMG').hide();
+	                    $('#events').html(table);
+	                },
+				   type: 'GET'
+				});
+			});
+</script>
+</body>
+</html>
