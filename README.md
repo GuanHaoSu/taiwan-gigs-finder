@@ -1,4 +1,4 @@
-node-web-scraper
+taiwan gigs finder
 ================
 
-Simple web scraper to get a movie name, release year and community rating from IMDB.
+make find gigs simple
