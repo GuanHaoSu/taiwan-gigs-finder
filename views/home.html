@@ -15,7 +15,38 @@
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 <!-- 	<link href="http://fonts.googleapis.com/css?family=Open+Sans Condensed:300italic,300,700" rel="stylesheet" type="text/css"> -->
 	 <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css" />
+	 <style>
+	 @media (max-width: 480px) {
+	 	
+	 }
+	 @media screen and (min-width: 1200px) {
+	   #events{
+		 		top: 25%; 
+		 		position: absolute;
+		 		width: 100%;
+		 	}
+	}
 
+	@media screen and (max-width: 979px) {
+	   #events{
+		 		top: 45%; 
+		 		position: absolute;
+		 		width: 100%;
+		 	}
+	}
+
+	@media screen and (max-width: 767px) {
+	   
+	}
+
+	@media screen and (max-device-width:1200px) {
+	  #events{
+		 		top: 25%; 
+		 		position: absolute;
+		 		width: 100%;
+		 	}
+	}
+	 </style>
 </head>
 
 <body>
@@ -71,7 +102,7 @@
 		    </div>
 		</div>
 	<img src="img/ajax-loader.gif" style="display:none; position: absolute;left:50%;top:40%;"id="loadingIMG">
-		<div id="events" style="top: 25%; position: absolute;width: 100%;">
+		<div id="events" style="">
 			
 <!-- 			<table class="table table-striped">
 			   <thead>
